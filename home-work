@@ -31,3 +31,29 @@
       src: /app/target/java-tomcat-maven-example.war
       dest: /tmp/
       flat: yes
+
+
+- name: Assembly tomcat
+  hosts: db
+  become: yes
+
+  tasks:
+  - name: Ensure default-jdk packages is present
+    apt:
+      name: default-jdk
+      state: present
+
+  - name: Ensure tomcat packages is present
+    apt:
+      name: tomcat9
+      state: present
+
+  - name: Copy war file in prod
+    copy:
+      src: /tmp/java-tomcat-maven-example.war
+      dest: /var/lib/tomcat9/webapps
+
+  - name: Ensure tomcat service is started
+    service:
+      name: tomcat9
+      state: started
