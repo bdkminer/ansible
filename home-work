@@ -1,0 +1,33 @@
+---
+- name: Assembly application
+  hosts: web
+  become: yes
+
+  tasks:
+  - name: Ensure git packages is present
+    apt:
+      name: git
+      state: present
+
+  - name: Clone a github repository
+    git:
+      repo: https://github.com/daticahealth/java-tomcat-maven-example.git
+      dest: /app/
+      clone: yes
+      update: yes
+
+  - name: Ensure maven packages is present
+    apt:
+      name: maven
+      state: present
+
+  - name: Running assembly mvn
+    shell: "mvn package"
+    args:
+      chdir: "/app"
+
+  - name: Copy war file in localhost
+    fetch:
+      src: /app/target/java-tomcat-maven-example.war
+      dest: /tmp/
+      flat: yes
