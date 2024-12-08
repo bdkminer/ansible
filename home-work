@@ -53,6 +53,13 @@
       src: /tmp/java-tomcat-maven-example.war
       dest: /var/lib/tomcat9/webapps
 
+  - name: Change war file for tomcat
+    file:
+      path: /var/lib/tomcat9/webapps/java-tomcat-maven-example.war
+      owner: tomcat
+      group: tomcat
+      mode: '0644'
+
   - name: Ensure tomcat service is started
     service:
       name: tomcat9
