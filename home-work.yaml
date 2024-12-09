@@ -1,6 +1,6 @@
 ---
 - name: Assembly application
-  hosts: web
+  hosts: app
   become: yes
 
   tasks:
@@ -34,7 +34,7 @@
 
 
 - name: Assembly tomcat
-  hosts: db
+  hosts: prod
   become: yes
 
   tasks:
